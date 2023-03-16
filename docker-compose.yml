@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  mysql_db:
+    image: mysql
+    env_file:
+      - .env
+    expose:
+      - 3306
+    ports:
+      - 3307:3306
+    volumes:
+      - tawi_mysql_db_data:/var/local/mysql
+      - tawi_mysql_db_config:/etc/mysql
+
+  api:
+    depends_on:
+      - mysql_db
+    restart: always
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 9001:9000
+    command: sh -c "chmod +x /app/entrypoint.sh && sh /app/entrypoint.sh"
+    volumes:
+      - ./api/:/app/
+  
+  server:
+    depends_on:
+      - api
+    restart: always
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/static/:/var/www/static/:ro
+
+
+volumes:
+  tawi_mysql_db_data:
+  tawi_mysql_db_config:
+
+

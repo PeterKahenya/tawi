@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tawi-api-deployment
+  labels:
+    app: tawi-api
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: tawi-api-pod
+  template:
+    metadata:
+      labels:
+        app: tawi-api-pod
+    spec:
+      imagePullSecrets:
+        - name: tawi-container-registry
+      containers:
+        - name: tawi-api
+          image: registry.digitalocean.com/tawi-container-registry/tawi_api:latest
+          envFrom:
+            - secretRef:
+                name: tawi-prod-env-secrets
+          ports:
+            - containerPort: 9000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: tawi-api-service
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9000
+      targetPort: 9000 # pod/container port
+  selector:
+    app: tawi-api-pod
+  

@@ -1,0 +1,9 @@
+.kube/
+api/env
+.env
+prod.env
+web/node_modules
+web/dist
+web/.env
+web/package-lock.json
+tawi.code-workspace

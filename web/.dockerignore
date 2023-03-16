@@ -1,0 +1,8 @@
+node_modules/
+src/
+public/
+package-lock.json
+package.json
+webpack.config.js
+.babelrc
+install_notes.txt
