@@ -1,6 +1,7 @@
-asgiref
 Django
 django-dotenv
 gunicorn
 mysqlclient
 sqlparse
+django-storages
+boto3
