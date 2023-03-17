@@ -62,10 +62,11 @@ jobs:
 
       - name: Restart db service
         run: |
-          systemctl status mysql.service
-          journalctl -xeu mysql.service
-          mysqld --validate-config
-          sudo /etc/init.d/mysql start
+          cat /var/log/mysql/mysql_error.log
+      # systemctl status mysql.service
+      # journalctl -xeu mysql.service
+      # mysqld --validate-config
+      # sudo /etc/init.d/mysql start
       #     mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       #     service mysql restart
           
