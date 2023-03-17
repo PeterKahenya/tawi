@@ -38,6 +38,7 @@ jobs:
           MYSQL_DATABASE: ${ env.MYSQL_DATABASE }
           MYSQL_USER: ${ env.MYSQL_USER }
           MYSQL_PASSWORD: ${ env.MYSQL_PASSWORD }
+          MYSQL_HOST: ${{ env.MYSQL_HOST }}
         ports:
           - 3306:3306
         options: >-
@@ -59,10 +60,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Restart db service
-        run: |
-          service mysql restart
-          service mysql status
+      # - name: Restart db service
+      #   run: |
+      #     service mysql restart
+      #     service mysql status
 
       - name: Test db database
         run: |
