@@ -60,10 +60,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # - name: Restart db service
-      #   run: |
+      - name: Restart db service
+        run: |
+          service mysql status
       #     service mysql restart
-      #     service mysql status
+          
 
       # - name: Test db database
       #   run: |
