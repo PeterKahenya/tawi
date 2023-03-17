@@ -67,7 +67,7 @@ jobs:
 
       - name: Test db database
         run: |
-          mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} -e "SELECT 1;"
+          mysql -u"${{ env.MYSQL_USER }}"" -p"${{ env.MYSQL_PASSWORD }}"" -e "SELECT 1;"
 
       - name: Run Tests
         run: |
