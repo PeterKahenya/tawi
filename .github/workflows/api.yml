@@ -1,6 +1,13 @@
-name: TAWI API CI
-
+name: TAWI API and Mysql Test
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+# permissions:
+# env:
+# defaults:
+# cuncurrency:
 on:
+  workflow_call:
+  workflow_dispatch:
+  workflow_run:
   push:
     branches: [ "main" ]
   pull_request:
@@ -8,16 +15,13 @@ on:
 
 
 jobs:
-  build:
-
+  django_test:
+    # needs:
+    # if:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./api
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7, 3.8, 3.9]
+    # environment: 
+    # concurrency:
+    # outputs:
     env:
       DJANGO_SECRET_KEY: MyCoolAwe$omeS3cr3tKey!
       DJANGO_DEBUG: 1
@@ -32,10 +36,30 @@ jobs:
       MYSQL_DATABASE: tawi_test_db
       MYSQL_USER: dbadministrator
       MYSQL_PASSWORD: MyKillerPa$$wo0rd
-
+    defaults:
+      run:
+        working-directory: ./api
+    # timeout-minutes: 360
+    strategy:
+      max-parallel: 4
+      matrix:
+        # include:
+        # exclude:
+        python-version: [3.7, 3.8, 3.9]
+    # continue-on-error:
+    # container:
+        # image:
+        # credentials:
+        # env:
+        # ports:
+        # volumes:
+        # options:
     services:
       mysql_db:
         image: mysql:8
+        # credentials:
+        # volumes:
+        # options:
         env:
           MYSQL_ROOT_PASSWORD: ${ env.MYSQL_ROOT_PASSWORD }
           MYSQL_DATABASE: ${ env.MYSQL_DATABASE }
@@ -43,21 +67,34 @@ jobs:
           MYSQL_PASSWORD: ${ env.MYSQL_PASSWORD }
         ports:
           - 3306:3306
-
+    # uses:
     steps:
+      - uses: actions/checkout@v3
+        # id:
+        # if:
+        # name:
+        # run:
+        # shell:
+        # with:
+          # entrypoint:
+          # args:
+          # param1:
+          # param2:
+          # ...
+        # env:
+        # continue-on-error: false
+        # timeout-minutes:
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
     
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-        
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-  
-    - name: Run Tests
-      run: |
-        python manage.py test
+      - name: Run Tests
+        run: |
+          python manage.py test

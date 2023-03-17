@@ -49,3 +49,7 @@ kubectl rollout status deployment/tawi-server-deployment
 ```
 kubectl get pods
 ```
+
+### Github Actions Docs
+https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+
