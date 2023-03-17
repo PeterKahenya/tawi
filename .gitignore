@@ -2,6 +2,7 @@
 api/env
 api/.env
 .env
+todo
 prod.env
 web/node_modules
 web/dist
