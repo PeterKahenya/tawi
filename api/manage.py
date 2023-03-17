@@ -24,6 +24,6 @@ def main():
 if __name__ == '__main__':
     try:
         dotenv.read_dotenv(BASE_DIR / ".env")
-    except Exception as e:
-        print("Exception "+str(e))
+    except:
+        print("Warning related to .env")
     main()
