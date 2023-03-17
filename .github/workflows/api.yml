@@ -1,5 +1,5 @@
 name: TAWI API and Mysql Test
-run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+run-name: Deploy by @${{ github.actor }} 🚀
 # permissions:
 # env:
 # defaults:
