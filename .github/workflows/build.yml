@@ -52,6 +52,7 @@ jobs:
       - name: K8s cluster kubeconfig file with Short-lived credentials
         run: |
           doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ env.K8S_CLUSTER_NAME }}
+          
       - name: Update Deployment Images
         run: |
           kubectl set image deployment/tawi-api-deployment tawi-api=registry.digitalocean.com/tawi-container-registry/tawi_api:${GITHUB_SHA::7}
