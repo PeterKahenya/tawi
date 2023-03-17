@@ -62,7 +62,8 @@ jobs:
 
       - name: Restart db service
         run: |
-          service mysql status
+          sudo /etc/init.d/mysql start
+      #     mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
       #     service mysql restart
           
 
