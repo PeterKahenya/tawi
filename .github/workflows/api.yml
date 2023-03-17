@@ -18,6 +18,7 @@ jobs:
   django_test:
     # needs:
     # if:
+    # uses:
     runs-on: ubuntu-latest
     # environment: 
     # concurrency:
@@ -35,6 +36,7 @@ jobs:
       MYSQL_ROOT_PASSWORD: MyCoolAwe$omeR00tPasswo0rd
       MYSQL_DATABASE: tawi_test_db
       MYSQL_USER: dbadministrator
+      MYSQL_HOST: localhost
       MYSQL_PASSWORD: MyKillerPa$$wo0rd
     defaults:
       run:
@@ -55,7 +57,7 @@ jobs:
         # volumes:
         # options:
     services:
-      mysql_db:
+      mysql-db:
         image: mysql:8
         # credentials:
         # volumes:
@@ -67,7 +69,7 @@ jobs:
           MYSQL_PASSWORD: ${ env.MYSQL_PASSWORD }
         ports:
           - 3306:3306
-    # uses:
+  
     steps:
       - uses: actions/checkout@v3
         # id:
