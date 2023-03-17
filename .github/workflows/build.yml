@@ -31,14 +31,14 @@ jobs:
       
       - name: Build tawi_api image
         run: |
-          docker build 
+          docker build \
           -t registry.digitalocean.com/tawi-container-registry/tawi_api:latest \
           -t registry.digitalocean.com/tawi-container-registry/tawi_api:${GITHUB_SHA::7} \
           api/
       
       - name: Build tawi_server image
         run: |
-          docker build 
+          docker build \
           -t registry.digitalocean.com/tawi-container-registry/tawi_server:latest \
           -t registry.digitalocean.com/tawi-container-registry/tawi_server:${GITHUB_SHA::7} \
           nginx/
