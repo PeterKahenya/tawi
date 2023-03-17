@@ -17,11 +17,11 @@ jobs:
       DJANGO_SUPERUSER_PASSWORD: MyAwesomeDBMan1Admin$$
       DB_IGNORE_SSL: true
       MYSQL_PORT: 3306
-      MYSQL_ROOT_PASSWORD: MyCoolAwe$omeR00tPasswo0rd
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: tawi_test_db
-      MYSQL_USER: dbadministrator
+      MYSQL_USER: root
       MYSQL_HOST: localhost
-      MYSQL_PASSWORD: MyKillerPa$$wo0rd
+      MYSQL_PASSWORD: root
     defaults:
       run:
         working-directory: ./api
@@ -63,12 +63,6 @@ jobs:
       - name: Restart db service
         run: |
           sudo /etc/init.d/mysql start
-
-      # systemctl status mysql.service
-      # mysqld --validate-config
-      # sudo /etc/init.d/mysql start
-      #     mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-      #     service mysql restart
           
 
       # - name: Test db database
