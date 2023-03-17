@@ -21,7 +21,7 @@ python manage.py migrate --noinput || true
 echo "----------CREATING SUPERUSER----------------------"
 python manage.py createsuperuser --email ${DJANGO_SUPERUSER_EMAIL} --noinput || true
 
-python manage.py collectstattic --noinput
+python manage.py collectstatic --noinput
 
 echo "------STARTING GUNICORN AT 0.0.0.0:${DJANGO_PORT}--"
 gunicorn tawi.wsgi:application --worker-tmp-dir /dev/shm --reload --bind "0.0.0.0:${DJANGO_PORT}"
