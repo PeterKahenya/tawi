@@ -1,7 +1,7 @@
 Build Steps
 1. Test
 ```
-python manage.py runserver
+python manage.py test
 ```
 
 2. Build tawi_server 
