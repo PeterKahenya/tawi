@@ -8,10 +8,10 @@ on:
   workflow_call:
   workflow_dispatch:
   # workflow_run:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 
 jobs:
@@ -101,6 +101,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Restart db service
+        run: |
+          service mysql restart
+          service mysql status
+
       - name: Test db database
         run: |
           mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} -e "SELECT 1;"
