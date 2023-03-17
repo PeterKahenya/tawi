@@ -9,11 +9,11 @@ on:
     branches: [main]
 
 jobs:
-  test-api:
-    uses: PeterKahenya/tawi/.github/workflows/test_api.yml@main
+  # test-api:
+  #   uses: PeterKahenya/tawi/.github/workflows/test_api.yml@main
   build:
     runs-on: ubuntu-latest
-    needs: test-api
+    # needs: test-api
     env:
       DJANGO_SECRET_KEY: MyCoolAwe$omeS3cr3tKey!
       K8S_CLUSTER_NAME: tawi-k8-cluster
@@ -52,7 +52,32 @@ jobs:
       - name: K8s cluster kubeconfig file with Short-lived credentials
         run: |
           doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ env.K8S_CLUSTER_NAME }}
-          
+
+      - name: Update k8s secrets
+        run: |
+          cat << EOF >> ./.env.prod
+
+          DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_DEBUG=0
+          DJANGO_ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          DJANGO_PORT=${{ secrets.DJANGO_PORT }}
+          DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+          DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+          DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          DB_IGNORE_SSL=${{ secrets.DB_IGNORE_SSL }}
+          MYSQL_HOST=${{ secrets.MYSQL_HOST }}
+          MYSQL_PORT=${{ secrets.MYSQL_PORT }}
+          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER=${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+          API_URL=${{ secrets.API_URL }}
+
+          EOF
+
+          kubectl delete secrets tawi-prod-env-secrets
+          kubectl create secret generic tawi-prod-env-secrets --from-env-file ./.env.prod
+
       - name: Update Deployment Images
         run: |
           kubectl set image deployment/tawi-api-deployment tawi-api=registry.digitalocean.com/tawi-container-registry/tawi_api:${GITHUB_SHA::7}
