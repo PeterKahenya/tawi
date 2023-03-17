@@ -19,6 +19,7 @@ spec:
       containers:
         - name: tawi-server
           image: registry.digitalocean.com/tawi-container-registry/tawi_server:latest
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: tawi-prod-env-secrets

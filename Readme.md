@@ -50,6 +50,14 @@ kubectl rollout status deployment/tawi-server-deployment
 kubectl get pods
 ```
 
+and 
+```
+kubectl set image deployment/tawi-api-deployment tawi-api=registry.digitalocean.com/tawi-container-registry/tawi_api:${GITHUB_SHA::7}
+```
+```
+kubectl set image deployment/tawi-server-deployment tawi-server=registry.digitalocean.com/tawi-container-registry/tawi_server:${GITHUB_SHA::7}
+```
+
 ### Github Actions Docs
 https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 

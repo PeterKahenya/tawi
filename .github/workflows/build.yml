@@ -16,6 +16,7 @@ jobs:
     # needs: test-api
     env:
       DJANGO_SECRET_KEY: MyCoolAwe$omeS3cr3tKey!
+      K8S_CLUSTER_NAME: tawi-k8-cluster
     steps:
 
       - name: Checkout code
@@ -48,6 +49,17 @@ jobs:
           docker push registry.digitalocean.com/tawi-container-registry/tawi_api --all-tags
           docker push registry.digitalocean.com/tawi-container-registry/tawi_server --all-tags
 
+      - name: K8s cluster kubeconfig file with Short-lived credentials
+        run: |
+          doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ env.K8S_CLUSTER_NAME }}
+      - name: Update Deployment Images
+        run: |
+          kubectl set image deployment/tawi-api-deployment tawi-api=registry.digitalocean.com/tawi-container-registry/tawi_api:${GITHUB_SHA::7}
+          kubectl set image deployment/tawi-server-deployment tawi-server=registry.digitalocean.com/tawi-container-registry/tawi_server:${GITHUB_SHA::7}
 
+      - name: Wait for Rollout to finish
+        run: |
+          kubectl rollout status deployment/tawi-api-deployment
+          kubectl rollout status deployment/tawi-server-deployment
+          
 
-      
