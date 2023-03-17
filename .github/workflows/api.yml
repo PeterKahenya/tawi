@@ -69,6 +69,11 @@ jobs:
           MYSQL_PASSWORD: ${ env.MYSQL_PASSWORD }
         ports:
           - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
   
     steps:
       - uses: actions/checkout@v3
@@ -96,7 +101,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-    
+      - name: Test db database
+        run: |
+          mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} -e "SELECT 1;"
+
       - name: Run Tests
         run: |
           python manage.py test
