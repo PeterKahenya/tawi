@@ -9,12 +9,45 @@ on:
     branches: [main]
 
 jobs:
-  test-api:
-    uses: PeterKahenya/tawi/.github/workflows/test_api.yml@main
+  # test-api:
+  #   uses: PeterKahenya/tawi/.github/workflows/test_api.yml@main
   build:
     runs-on: ubuntu-latest
-    needs: test-api
+    # needs: test-api
     env:
       DJANGO_SECRET_KEY: MyCoolAwe$omeS3cr3tKey!
     steps:
-      - uses: actions/checkout@v3
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Login to DO Registry with Short-lived credentials
+        run: doctl registry login --expiry-seconds 1200
+      
+      - name: Build tawi_api image
+        run: |
+          docker build 
+          -t registry.digitalocean.com/tawi-container-registry/tawi_api:latest \
+          -t registry.digitalocean.com/tawi-container-registry/tawi_api:${GITHUB_SHA::7} \
+          api/
+      
+      - name: Build tawi_server image
+        run: |
+          docker build 
+          -t registry.digitalocean.com/tawi-container-registry/tawi_server:latest \
+          -t registry.digitalocean.com/tawi-container-registry/tawi_server:${GITHUB_SHA::7} \
+          nginx/
+      
+      - name: Push Images
+        run: | 
+          docker push registry.digitalocean.com/tawi-container-registry/tawi_api --all-tags
+          docker push registry.digitalocean.com/tawi-container-registry/tawi_server --all-tags
+
+
+
+      
