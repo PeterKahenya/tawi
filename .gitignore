@@ -1,5 +1,6 @@
 .kube/
 api/env
+api/.env
 .env
 prod.env
 web/node_modules

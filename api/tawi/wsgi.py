@@ -3,6 +3,7 @@ import pathlib
 import dotenv
 
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+
 print(BASE_DIR)
 
 from django.core.wsgi import get_wsgi_application

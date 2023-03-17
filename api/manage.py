@@ -6,7 +6,6 @@ import pathlib
 import dotenv
 
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
-print()
 
 def main():
     """Run administrative tasks."""
@@ -23,5 +22,8 @@ def main():
 
 
 if __name__ == '__main__':
-    # dotenv.read_dotenv(BASE_DIR / ".env")
+    try:
+        dotenv.read_dotenv(BASE_DIR / ".env")
+    except Exception as e:
+        print("Exception "+str(e))
     main()
