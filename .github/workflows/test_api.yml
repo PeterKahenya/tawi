@@ -1,28 +1,12 @@
 name: TAWI API and Mysql Test
-run-name: Deploy by @${{ github.actor }} 🚀
-# permissions:
-# env:
-# defaults:
-# cuncurrency:
+run-name: Test API by @${{ github.actor }} 🚀
 on:
   workflow_call:
   workflow_dispatch:
-  # workflow_run:
-  # push:
-  #   branches: [ "main" ]
-  # pull_request:
-  #   branches: [ "main" ]
-
 
 jobs:
   django_test:
-    # needs:
-    # if:
-    # uses:
     runs-on: ubuntu-latest
-    # environment: 
-    # concurrency:
-    # outputs:
     env:
       DJANGO_SECRET_KEY: MyCoolAwe$omeS3cr3tKey!
       DJANGO_DEBUG: 1
@@ -41,27 +25,14 @@ jobs:
     defaults:
       run:
         working-directory: ./api
-    # timeout-minutes: 360
     strategy:
       max-parallel: 4
       matrix:
-        # include:
-        # exclude:
-        python-version: [3.7, 3.8, 3.9]
-    # continue-on-error:
-    # container:
-        # image:
-        # credentials:
-        # env:
-        # ports:
-        # volumes:
-        # options:
+        python-version: [3.9]
+
     services:
       mysql-db:
         image: mysql:8
-        # credentials:
-        # volumes:
-        # options:
         env:
           MYSQL_ROOT_PASSWORD: ${ env.MYSQL_ROOT_PASSWORD }
           MYSQL_DATABASE: ${ env.MYSQL_DATABASE }
@@ -77,20 +48,6 @@ jobs:
   
     steps:
       - uses: actions/checkout@v3
-        # id:
-        # if:
-        # name:
-        # run:
-        # shell:
-        # with:
-          # entrypoint:
-          # args:
-          # param1:
-          # param2:
-          # ...
-        # env:
-        # continue-on-error: false
-        # timeout-minutes:
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v3

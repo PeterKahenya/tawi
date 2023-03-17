@@ -1,0 +1,116 @@
+# name: TAWI API and Mysql Test
+# run-name: Deploy by @${{ github.actor }} 🚀
+# # permissions:
+# # env:
+# # defaults:
+# # cuncurrency:
+# on:
+#   workflow_call:
+#   workflow_dispatch:
+#   # workflow_run:
+#   # push:
+#   #   branches: [ "main" ]
+#   # pull_request:
+#   #   branches: [ "main" ]
+
+
+# jobs:
+#   django_test:
+#     # needs:
+#     # if:
+#     # uses:
+#     runs-on: ubuntu-latest
+#     # environment: 
+#     # concurrency:
+#     # outputs:
+#     env:
+#       DJANGO_SECRET_KEY: MyCoolAwe$omeS3cr3tKey!
+#       DJANGO_DEBUG: 1
+#       DJANGO_ALLOWED_HOSTS: 0.0.0.0,*
+#       DJANGO_PORT: 9000
+#       DJANGO_SUPERUSER_EMAIL: administrator@tawi.com
+#       DJANGO_SUPERUSER_USERNAME: administrator
+#       DJANGO_SUPERUSER_PASSWORD: MyAwesomeDBMan1Admin$$
+#       DB_IGNORE_SSL: true
+#       MYSQL_PORT: 3306
+#       MYSQL_ROOT_PASSWORD: MyCoolAwe$omeR00tPasswo0rd
+#       MYSQL_DATABASE: tawi_test_db
+#       MYSQL_USER: dbadministrator
+#       MYSQL_HOST: localhost
+#       MYSQL_PASSWORD: MyKillerPa$$wo0rd
+#     defaults:
+#       run:
+#         working-directory: ./api
+#     # timeout-minutes: 360
+#     strategy:
+#       max-parallel: 4
+#       matrix:
+#         # include:
+#         # exclude:
+#         python-version: [3.7, 3.8, 3.9]
+#     # continue-on-error:
+#     # container:
+#         # image:
+#         # credentials:
+#         # env:
+#         # ports:
+#         # volumes:
+#         # options:
+#     services:
+#       mysql-db:
+#         image: mysql:8
+#         # credentials:
+#         # volumes:
+#         # options:
+#         env:
+#           MYSQL_ROOT_PASSWORD: ${ env.MYSQL_ROOT_PASSWORD }
+#           MYSQL_DATABASE: ${ env.MYSQL_DATABASE }
+#           MYSQL_USER: ${ env.MYSQL_USER }
+#           MYSQL_PASSWORD: ${ env.MYSQL_PASSWORD }
+#         ports:
+#           - 3306:3306
+#         options: >-
+#           --health-cmd="mysqladmin ping"
+#           --health-interval=10s
+#           --health-timeout=5s
+#           --health-retries=3
+  
+#     steps:
+#       - uses: actions/checkout@v3
+#         # id:
+#         # if:
+#         # name:
+#         # run:
+#         # shell:
+#         # with:
+#           # entrypoint:
+#           # args:
+#           # param1:
+#           # param2:
+#           # ...
+#         # env:
+#         # continue-on-error: false
+#         # timeout-minutes:
+
+#       - name: Set up Python ${{ matrix.python-version }}
+#         uses: actions/setup-python@v3
+#         with:
+#           python-version: ${{ matrix.python-version }}
+          
+#       - name: Install Dependencies
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
+
+#       - name: Restart db service
+#         run: |
+#           service mysql restart
+#           service mysql status
+
+#       - name: Test db database
+#         run: |
+#           mysql -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PASSWORD }} -e "SELECT 1;"
+
+#       - name: Run Tests
+#         run: |
+#           python manage.py test
