@@ -1,4 +1,4 @@
-name: TAWI API and Mysql Test
+name: Tawi Test
 run-name: Test API by @${{ github.actor }} 🚀
 on:
   workflow_call:

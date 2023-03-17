@@ -1,4 +1,4 @@
-name: TAWI API and Mysql Test
+name: Tawi Build
 run-name: Build API and Push to DO Registry 🚀
 on:
   workflow_call:
